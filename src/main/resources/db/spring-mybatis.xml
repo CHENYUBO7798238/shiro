@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!--1 引入属性文件，在配置中占位使用 -->
+	<context:property-placeholder location="classpath:/db/jdbc.properties" />
+
+	<!--2 配置druid数据源 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+
+		<property name="filters" value="config" />
+
+		<property name="maxActive" value="${jdbc.maximumPoolSize}" />
+		<property name="initialSize" value="1" />
+		<property name="maxWait" value="60000" />
+		<property name="minIdle" value="${jdbc.minimumIdle}" />
+
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxOpenPreparedStatements" value="20" />
+
+		<property name="asyncInit" value="true" />
+		<!-- 解密 -->
+		<property name="connectionProperties"
+			value="druid.stat.slowSqlMillis=5000;config.decrypt=true;config.decrypt.key=${jdbc.publickey}" />
+	</bean>
+	<!--3 会话工厂bean sqlSessionFactoryBean -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- 别名 -->
+		<property name="typeAliasesPackage" value="com.cyb.*.entity" />
+		<property name="configuration">
+			<bean class="org.apache.ibatis.session.Configuration">
+				<property name="mapUnderscoreToCamelCase" value="true" />
+			</bean>
+		</property>
+	</bean>
+
+	<!--4 自动扫描对象关系映射 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!--指定会话工厂，如果当前上下文中只定义了一个该属性则可省去 -->
+		<!-- <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/> -->
+		<!-- 指定要自动扫描接口的基础包，实现接口 -->
+		<property name="basePackage" value="com.cyb.*.mapper"></property>
+	</bean>
+</beans>
