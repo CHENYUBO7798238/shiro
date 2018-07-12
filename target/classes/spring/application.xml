@@ -14,8 +14,9 @@
            http://www.springframework.org/schema/tx 
            http://www.springframework.org/schema/tx/spring-tx.xsd">
            
-    <context:component-scan base-package="com.cyb.sys.component,com.cyb.bean,com.cyb.sys.entity,com.cyb.sys.mapper,com.cyb.sys.service">
+    <context:component-scan base-package="com.cyb.sys.*">
     	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
     <import resource="../db/spring-mybatis.xml"/>
+    <import resource="../shiro/spring-shiro.xml"/>
 </beans>

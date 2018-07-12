@@ -34,14 +34,14 @@
 	</mvc:annotation-driven>
 
 	<!-- 配置视图解析器，将ModelAndView及字符串解析为具体的页面 -->
-<!-- 	<bean id="jspViewResolver"
+	<bean id="jspViewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass"
 			value="org.springframework.web.servlet.view.JstlView" />
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 		<property name="order" value="3" />
-	</bean> -->
+	</bean>
 
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

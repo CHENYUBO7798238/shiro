@@ -13,6 +13,6 @@ public class SysUser implements Serializable {
 	private static final long serialVersionUID = -8513585891699379151L;
 	
 	private Long id;
-	private String firstName;
+	private String name;
 
 }

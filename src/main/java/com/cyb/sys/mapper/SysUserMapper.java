@@ -8,6 +8,6 @@ import com.cyb.sys.entity.SysUser;
 @Mapper
 public interface SysUserMapper {
 
-	@Select("select * from sys_user where id = #{id}")
+	@Select("select id,name from sys_user where id = #{id}")
 	public SysUser findById(Long id);
 }
